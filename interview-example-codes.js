@@ -424,3 +424,6 @@ console.log(cache.get(2));
 // -1 -> ya no existe
 console.log(cache.get(3)); 
 // "C"
+
+
+

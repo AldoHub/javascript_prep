@@ -113,4 +113,101 @@ document.addEventListener("DOMContentLoaded", function(){
     let curriedSum = curryFactory(sum);
     console.log("RETURN CURRYING FUNCTION: ", curriedSum(1)(2)(3)(4))
 
+
+
+    //create a function which stores inside a secret word which cannot be changed or access outside (CLOSURE)
+    const someFn = () => {
+        const secret = 'secretword'; 
+
+        return () => secret;
+    }
+
+    const getSecret = someFn();
+    console.log(getSecret()); //secretword
+
+
+    //CLONE OBJECT WITHOUT MUTATING THE ORIGINAL OBJECT
+
+    let obj = {a: 1, b: 2};
+    let clone = Object.assign({}, obj);
+    let clone2 = {...obj};
+    clone2.c = 'tst';
+
+    console.log(obj, clone, clone2);
+
+    //COUNT VOWELS
+    const findVowels = (str) => {
+        const vowels = ['a', 'e', 'i', 'o', 'u'];
+        return str.toLowerCase().split('').reduce((acc, char) => {
+           return vowels.includes(char) ? acc + 1 : acc;
+        }, 0);
+
+
+    }
+
+    console.log(findVowels('hello'));
+    console.log(findVowels('hello world'));
+    console.log(findVowels('addgregwoooqwertyuiop'));
+  
+
+    //REVERSE EACH WORD IN A SENTENCE
+    const toReverse = "welcome to this javascript course";
+    const reverseString = (str) => {
+        return str.split(' ').reverse().join(' ');
+    }
+
+    console.log(reverseString(toReverse));
+
+    //DEFINE A FUNCTION THAT TAKES AN ARRAY OF STRINGS AND RETURNS THE MOST COMMONLY OCCURING WORD
+
+    const mostFrequent = (arr) => { 
+        const mapping= arr.reduce((acc, el) => {
+            acc[el] = acc[el] ? acc[el] + 1 : 1;
+            return acc;
+        }, {});
+
+        return Object.entries(mapping).reduce(
+            (acc, el) => (acc[1] > el[1] ? acc : el),
+            [null, 0]
+        )[0];
+    }
+
+    console.log(mostFrequent(["a", "b", "c", "a", "b", "c", "a"]));
+
+
+    //remove the minimum number of parentheses from a string
+    const removeMinParens = (str) => {
+        const chars = str.split(''); //split the string into an array of characters
+        const stack = []; //create an empty stack
+
+        for(let i = 0; i < chars.length; i++) {
+            if(chars[i] === '(') {
+                stack.push(i); //push the character index to the stack
+                console.log(stack);
+            } else if(chars[i] === ')') {
+                
+                if(stack.length === 0) {
+                    chars[i] = ''; //if the stack is empty, replace the character with an empty string
+                } else {
+                    stack.pop(); //otherwise, pop the last character from the stack
+                    
+                }
+                
+            }
+        }
+
+        
+        while(stack.length > 0) {
+           chars[stack.pop()] = ''; //pop the last character from the stack and replace it with an empty string
+        }
+            
+
+        return chars.join(''); //join the array back into a string
+
+    }
+
+
+    console.log(removeMinParens('lee(t(c)o)de)'));
+    console.log(removeMinParens('))(('));
+    console.log(removeMinParens('a)b(c)d'));
 });

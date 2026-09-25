@@ -313,4 +313,133 @@ const shortestPath = (edges, nodeA, nodeB) => {
 
 console.log("shortest path: ", shortestPath(shortestPathEdges, 'w', 'z')); // 2
 
-//video continue 1:39:38
+
+//---- Write a function, islandCount, that takes in a grid containing Ws and Ls. W represents water and L represents land.
+//---- The function should return the number of islands in the grid.
+
+const grid = [
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'W', 'W', 'L', 'W'],
+    ['W', 'W', 'L', 'L', 'W'],
+    ['L', 'W', 'W', 'L', 'L'],
+    ['L', 'L', 'W', 'W', 'W'],
+];
+
+
+const islandCount = (grid) => {
+    const visited = new Set();
+    let count = 0;
+    //loop through the grid - rows and columns
+    for(let r = 0; r < grid.length; r++) {//rows
+        for(let c = 0; c < grid[0].length; c++) { //columns
+            //BFS
+            if(exploreIsland(grid, r, c, visited) === true) {
+                count++;
+            }
+        }
+    }
+
+    return count;
+}
+
+
+const exploreIsland = (grid, r, c, visited) => {
+   
+    //check if we are not out of bounds
+    const rowInbounds = 0 <= r && r < grid.length;
+    const colInbounds = 0 <= c && c < grid[0].length;
+    //if out of bounds, return
+    if(!rowInbounds || !colInbounds) return false;
+
+    //check if the current position is a water cell
+    if(grid[r][c] === 'W') return false;
+   
+    //continue if the current position is a land cell
+    //turn the position into a string - this is to check if the position has been visited - wont work with an array
+    const pos = r + ',' + c;
+    //check if the position has been visited
+    if(visited.has(pos)) return false;
+    //add the position to the visited set
+    visited.add(pos);
+
+    //explore the rows and columns
+    exploreIsland(grid, r - 1, c, visited);
+    exploreIsland(grid, r + 1, c, visited);
+    exploreIsland(grid, r, c - 1, visited);
+    exploreIsland(grid, r, c + 1, visited);
+
+    //return true after exploring all the neighbour nodes
+    return true;
+}
+
+console.log("island count", islandCount(grid)); // 3
+
+
+//---- Write a function, minimunIsland, that takes in a grid containing Ws and Ls. W represents water and L represents land.
+//---- The function should return the size of the smallest island in the grid.
+
+const grid2 = [
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'L', 'W', 'W', 'W'],
+    ['W', 'W', 'W', 'L', 'W'],
+    ['W', 'W', 'L', 'L', 'W'],
+    ['L', 'W', 'W', 'L', 'L'],
+    ['L', 'L', 'W', 'W', 'W'],
+];
+
+const minimunIsland = (grid) => {
+    const visited = new Set();
+    let minSize = Infinity; //set the size to the largest possible value
+
+    for(let r = 0; r < grid.length; r++) {//rows
+        for(let c = 0; c < grid[0].length; c++) { //columns
+            //BFS
+            const size = exploreIslandSize(grid, r, c, visited) 
+            if(size > 0 && size < minSize) {
+                minSize = size;
+            }
+            
+        }
+    }
+
+    return minSize;
+}
+
+
+
+const exploreIslandSize = (grid, r, c, visited) => {
+    //check if we are not out of bounds
+    const rowInbounds = 0 <= r && r < grid.length;
+    const colInbounds = 0 <= c && c < grid[0].length;
+    //if out of bounds, return
+    if(!rowInbounds || !colInbounds) return 0;
+
+    //check if the current position is a water cell
+    if(grid[r][c] === 'W') return 0;
+
+    //continue if the current position is a land cell
+    //turn the position into a string - this is to check if the position has been visited - wont work with an array
+    const pos = r + ',' + c;
+    //check if the position has been visited
+    if(visited.has(pos)) return 0;
+    //add the position to the visited set
+    visited.add(pos);
+
+    //represent the size of the current islando position
+    let size = 1;
+  
+    //explore the rows and columns
+    size += exploreIslandSize(grid, r - 1, c, visited);
+    size += exploreIslandSize(grid, r + 1, c, visited);
+    size += exploreIslandSize(grid, r, c - 1, visited);
+    size += exploreIslandSize(grid, r, c + 1, visited);
+
+    return size;
+}
+
+
+
+
+
+console.log("minimun island", minimunIsland(grid2)); // 3

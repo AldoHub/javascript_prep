@@ -369,4 +369,72 @@ console.log("BESTSUM TAB: ", bestSumTab(8, [1, 4, 5])); // [4, 4]
 console.log("BESTSUM TAB: ", bestSumTab(100, [1, 2, 5, 25])); // [25, 25, 25, 25]
 
 
-//4:20:55
+const canConstructTab = (target, wordBank) => {
+  const table = Array(target.length + 1).fill(null);
+  table[0] = true;
+  
+  for(let i = 0; i<=target.length; i++) {
+    if(table[i] === true) {
+      for(let word of wordBank){
+        //if the word matches the characters starting at position i
+        if(target.slice(i, i + word.length) === word){
+          table[i + word.length] = true;
+        }
+      }
+    }
+  }
+
+  return table[target.length];
+
+}
+
+console.log("CANCONSTRUCT TAB WORD: ", canConstructTab("abcdef", ["ab", "abc", "cd", "def", "abcd"])); // true
+console.log("CANCONSTRUCT TAB WORD: ", canConstructTab("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"])); // false
+console.log("CANCONSTRUCT TAB WORD: ", canConstructTab("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"])); // true
+console.log("CANCONSTRUCT TAB WORD: ", canConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // false
+
+
+const countConstructTab = (target, wordBank) => {
+  const table = Array(target.length + 1).fill(0);
+  table[0] = 1;
+  
+  for(let i = 0; i<=target.length; i++) {
+      for(let word of wordBank){
+        //if the word matches the characters starting at position i
+        if(target.slice(i, i + word.length) === word){
+          table[i + word.length] += table[i]
+        }
+      }
+  }
+
+  return table[target.length];
+}
+
+console.log("DP COUNTCONSTRUCT TAB WORD: ", countConstructTab("purple", ["purp", "p", "ur", "le", "purpl"])); // 2
+console.log("DP COUNTCONSTRUCT TAB WORD: ", countConstructTab("abcdef", ["ab", "abc", "cd", "def", "abcd"])); // 1
+console.log("DP COUNTCONSTRUCT TAB WORD: ", countConstructTab("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"])); // 0
+console.log("DP COUNTCONSTRUCT TAB WORD: ", countConstructTab("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"])); // 4
+console.log("DP COUNTCONSTRUCT TAB WORD: ", countConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // 0
+
+
+const allConstructTab = (target, wordBank) => {
+  const table = Array(target.length + 1).fill().map(() => []);
+  table[0] = [[]];
+
+  for(let i = 0; i<=target.length; i++) {
+    for(let word of wordBank){
+       if(target.slice(i, i + word.length) === word){
+        const newCombo = table[i].map(subArr => [...subArr, word] );
+        table[i + word.length].push(...newCombo);
+       }
+    }
+  }
+  
+  return table[target.length];
+}
+
+console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("purple", ["purp", "p", "ur", "le", "purpl"])); // [ ['purp', 'le'], ['p', 'ur', 'p', 'le'] ]
+console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef", "c"])); // 
+console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"])); // 
+console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"])); // 
+console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // 

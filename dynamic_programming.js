@@ -437,4 +437,4 @@ console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("purple", ["purp", "p"
 console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("abcdef", ["ab", "abc", "cd", "def", "abcd", "ef", "c"])); // 
 console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"])); // 
 console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"])); // 
-console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // 
+//console.log("DP ALLCONSTRUCT TAB WORD: ", allConstructTab("eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeef", ["e", "ee", "eee", "eeee", "eeeee", "eeeeee"])); // 
